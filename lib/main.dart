@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:web_scraper/presentation/web_scraper_page.dart';
+import 'di.dart' as di;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(const WebScraper());
 }
 

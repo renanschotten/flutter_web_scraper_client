@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:web_scraper/bloc/web_scraper_bloc.dart';
+import 'package:web_scraper/di.dart';
+import 'package:web_scraper/presentation/bloc/web_scraper_bloc.dart';
 
 class WebScraperPage extends StatefulWidget {
   const WebScraperPage({super.key});
@@ -11,7 +12,7 @@ class WebScraperPage extends StatefulWidget {
 }
 
 class _WebScraperPageState extends State<WebScraperPage> {
-  final WebScraperBloc controller = WebScraperBloc();
+  final WebScraperBloc bloc = getIt<WebScraperBloc>();
   final TextEditingController textEditingController = TextEditingController();
   final FocusNode fn = FocusNode();
 
@@ -36,14 +37,14 @@ class _WebScraperPageState extends State<WebScraperPage> {
               ElevatedButton(
                 onPressed: () {
                   fn.unfocus();
-                  controller.add(FetchDataEvent(
+                  bloc.add(FetchDataEvent(
                     searchContent: textEditingController.text,
                   ));
                 },
                 child: const Text('Pesquisar'),
               ),
               BlocBuilder<WebScraperBloc, WebScraperState>(
-                bloc: controller,
+                bloc: bloc,
                 builder: (context, state) {
                   if (state is WebScraperLoading) {
                     return const CircularProgressIndicator();
